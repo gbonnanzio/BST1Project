@@ -131,14 +131,27 @@ void BST::printTreePost() {
 
 TNode *BST::remove(string s){
 	TNode *test = find(s);
+	TNode *removed;
+	TNode *replace;
 	if(test == NULL){
 		cout << "This string is not in the tree." << endl;
 		return s;
 	}
 	if(test->right == NULL && test->left == NULL){
+		removed = removeNoKids(test);
+		return removed;
+	}
+	else if(test->right == NULL && test->left){
+		removed = removeOneKid(test, TRUE);
+		return removed;
+	}
+	else if(test->left == NULL && test->right){
+		removed = removeOneKid(test, FALSE);
+		return removed;
+	}
+	else{
 
 	}
-
 
 }
 
