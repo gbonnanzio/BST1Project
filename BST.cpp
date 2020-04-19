@@ -9,8 +9,25 @@ in BST.hpp
 BST::BST() {
 	root = NULL;
 }
-BST::BST(string s) {
+BST::BST(string s){
 	root = new TNode(s);
+}
+
+void BST::setHeight(TNode *n){
+	if(n->parent != NULL){
+		if(n == n->parent->right){
+			if(n->parent->left->height <= n->height){
+				n->parent->height++;
+				setHeight(n->parent);
+			}
+		}
+		else{
+			if(n->parent->right->height <= n->height){
+				n->parent->height++;
+				setHeight(n->parent);
+			}
+		}
+	}
 }
 
 
@@ -42,6 +59,7 @@ TNode *BST::find(string s){
 		return NULL;
 	}
 }
+
 
 
 
