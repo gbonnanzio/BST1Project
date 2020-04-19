@@ -150,15 +150,30 @@ TNode *BST::remove(string s){
 		return removed;
 	}
 	else{
+		replace = test->right
+		while(replace->left !=NULL){
+			replace = replace->left;
+		}
+		TNode *tmp = replace;
+		tmp->parent->left = tmp->right;
+		tmp->right = test->right;
+		tmp->left = test->left;
+		tmp->parent = test->parent;
+		if(test->parent->right == test){
+			test->parent->right = replace;
+			return test;
+		}
+		else{
+			test->parent->left = replace;
+			return test;
+		}
 
 	}
-
+	setHeight(root);
 }
 
 
 
-
-//hi
 
 
 
