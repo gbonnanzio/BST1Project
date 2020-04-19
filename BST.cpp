@@ -41,8 +41,6 @@ void BST::setHeight(TNode *n){
 
 
 
-
-
 TNode *BST::find(string s){
 	if(s == root->data->phrase){
 		return root;
@@ -90,6 +88,7 @@ void BST::printTreePost() {
 	else {
 		cout << endl<<"Printing PostOrder:" <<endl;
 		printTreePost(root);
+
 	}
 }
 
@@ -116,3 +115,13 @@ void BST::clearTree(TNode *tmp) {
 	}
 }
 
+
+
+
+
+
+
+
+void printTreePost(TNode *n){
+
+}
