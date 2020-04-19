@@ -181,18 +181,46 @@ void BST::printTreePost() {
 
 TNode *BST::remove(string s){
 	TNode *test = find(s);
+	TNode *removed;
+	TNode *replace;
 	if(test == NULL){
 		cout << "This string is not in the tree." << endl;
 		return s;
 	}
 	if(test->right == NULL && test->left == NULL){
+		removed = removeNoKids(test);
+		return removed;
+	}
+	else if(test->right == NULL && test->left){
+		removed = removeOneKid(test, TRUE);
+		return removed;
+	}
+	else if(test->left == NULL && test->right){
+		removed = removeOneKid(test, FALSE);
+		return removed;
+	}
+	else{
+		replace = test->right
+		while(replace->left !=NULL){
+			replace = replace->left;
+		}
+		TNode *tmp = replace;
+		tmp->parent->left = tmp->right;
+		tmp->right = test->right;
+		tmp->left = test->left;
+		tmp->parent = test->parent;
+		if(test->parent->right == test){
+			test->parent->right = replace;
+			return test;
+		}
+		else{
+			test->parent->left = replace;
+			return test;
+		}
 
 	}
-
-
+	setHeight(root);
 }
-
-
 
 
 
@@ -314,4 +342,57 @@ bool BST::insert(string s){
 	}
 
 }
+<<<<<<< HEAD
 
+=======
+
+
+
+
+
+TNode* BST::removeNoKids(TNode *tmp){
+	//no kids means we just need to disconnect it
+	TNode *tmp2;
+	if (tmp->parent->left==tmp){
+		tmp->parent->left=NULL;
+	}
+	else {
+		tmp->parent->right=NULL;
+	}
+	tmp->parent=NULL;
+	return tmp;
+}
+
+TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
+	//we need to figure out if the tmp is on the left or the right of it's parent
+	TNode *tmp2;
+	if (tmp->parent->left==tmp){
+		//tmp on parent's left
+		tmp2 = tmp->parent->left;
+	}
+	else {
+		//tmp on it's parents right
+		tmp2 = tmp->parent->right;
+	}
+
+	//reassign the child to the parent of the node
+	if (leftFlag){//left child present
+		tmp->left->parent=tmp->parent;
+		tmp2=tmp->left;
+	}
+	else {//right child present
+		tmp->right->parent=tmp->parent;
+		tmp2=tmp->right;
+	}
+
+	//remove the node by disconnecting it
+	tmp->parent=NULL;
+	tmp->left=NULL;
+	tmp->right=NULL;
+
+	setHeight(tmp2);
+	return tmp;
+}
+
+
+>>>>>>> branch 'master' of https://github.com/gbonnanzio/BST1Project.git
