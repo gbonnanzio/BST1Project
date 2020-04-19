@@ -3,7 +3,7 @@ Otherwise, as specified in the directions, you must write the BST.cpp.
 including the method definitions to accompany the method declarations 
 in BST.hpp
 */
-
+#include "BST.hpp"
 
 
 BST::BST() {
@@ -11,6 +11,23 @@ BST::BST() {
 }
 BST::BST(string s) {
 	root = new TNode(s);
+}
+
+TNode *BST::find(string s){
+	if(s == root->data->phrase){
+		return root;
+	}
+	else if(s > root->data->phrase){
+		root = root->right;
+		find(s);
+	}
+	else if(s < root->data->phrase){
+		root = root->left;
+		find(s);
+	}
+	else if(root == NULL){
+		return NULL;
+	}
 }
 
 void BST::printTreeIO() {
