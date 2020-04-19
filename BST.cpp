@@ -13,6 +13,26 @@ BST::BST(string s){
 	root = new TNode(s);
 }
 
+
+
+
+
+void printTreePost(TNode *n){
+	if(n==NULL){
+		return;
+	}
+	else{
+		printTreePost(n->left);
+		n->printNode();
+		printTreePost(n->left);
+	}
+}
+
+
+
+
+
+
 void BST::setHeight(TNode *n){
 	if(n->parent != NULL){
 		if(n == n->parent->right){
@@ -191,8 +211,3 @@ void BST::clearTree(TNode *tmp) {
 
 
 
-
-
-void printTreePost(TNode *n){
-
-}
