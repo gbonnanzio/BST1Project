@@ -13,6 +13,19 @@ BST::BST(string s) {
 	root = new TNode(s);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 TNode *BST::find(string s){
 	if(s == root->data->phrase){
 		return root;
@@ -30,6 +43,15 @@ TNode *BST::find(string s){
 	}
 }
 
+
+
+
+
+
+
+
+
+
 void BST::printTreeIO() {
 	if (root == NULL ) {
 		cout << "Empty Tree" << endl;
@@ -39,6 +61,14 @@ void BST::printTreeIO() {
 		printTreeIO(root);
 	}
 }
+
+
+
+
+
+
+
+
 
 
 void BST::printTreePre() {
@@ -52,6 +82,15 @@ void BST::printTreePre() {
 }
 
 
+
+
+
+
+
+
+
+
+
 void BST::printTreePost() {
 	if (root == NULL ) {
 		cout << "Empty Tree" << endl;
@@ -61,6 +100,40 @@ void BST::printTreePost() {
 		printTreePost(root);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+TNode *BST::remove(string s){
+	TNode *test = find(s);
+	if(test == NULL){
+		cout << "This string is not in the tree." << endl;
+		return s;
+	}
+	if(test->right == NULL && test->left == NULL){
+
+	}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 void BST::clearTree() {
@@ -73,6 +146,17 @@ void BST::clearTree() {
 		root = NULL;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
 void BST::clearTree(TNode *tmp) {
 	if (tmp == NULL) {
 		return;
