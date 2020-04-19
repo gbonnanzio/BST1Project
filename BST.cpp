@@ -4,7 +4,7 @@ including the method definitions to accompany the method declarations
 in BST.hpp
 */
 #include "BST.hpp"
-
+#include <math.h>
 
 BST::BST() {
 	root = NULL;
@@ -23,30 +23,61 @@ void printTreePost(TNode *n){
 	}
 	else{
 		printTreePost(n->left);
+		printTreePost(n->right);
 		n->printNode();
-		printTreePost(n->left);
 	}
+}
+
+
+TNode *removeNoKids(TNode *tmp){
+	if(tmp = tmp->parent->right){
+		tmp->parent->right = NULL;
+	}
+	else{
+		tmp->parent->left = NULL;
+	}
+	setHeight(tmp);
+
 }
 
 
 
 
 
-
 void BST::setHeight(TNode *n){
-	if(n->parent != NULL){
-		if(n == n->parent->right){
-			if(n->parent->left->height <= n->height){
-				n->parent->height++;
-				setHeight(n->parent);
-			}
+	if(n == NULL){
+		return;
+	}
+	if(n->left==NULL && n->right==NULL){
+		n->height = 1;
+		n->heightFlag = true;
+		setHeight(n->parent);
+	}
+	else if(n->left == NULL && n->right->heightFlag){
+		n->height = n->right->height + 1;
+		n->heightFlag = true;
+		setHeight(n->parent);
+	}
+	else if(n->right == NULL && n->left->heightFlag){
+		n->height = n->left->height + 1;
+		n->heightFlag = true;
+		setHeight(n->parent);
+	}
+	else if(n->left->heightFlag && n->right->heightFlag){
+		if(n->left->height > n->right->height){
+			n->height = n->left->height + 1;
 		}
 		else{
-			if(n->parent->right->height <= n->height){
-				n->parent->height++;
-				setHeight(n->parent);
-			}
+			n->height = n->right->height + 1;
 		}
+		n->heightFlag = true;
+		setHeight(n->parent);
+	}
+	else if(!n->left->heightFlag){
+		setHeight(n->left);
+	}
+	else if(!n->right->heightFlag){
+		setHeight(n->right);
 	}
 }
 
@@ -210,4 +241,77 @@ void BST::clearTree(TNode *tmp) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void BST::printTreeIO(TNode *n){
+	if (n==NULL){
+		return;
+	}
+	else {
+		printTreeIO(n->left);
+		n->printNode();
+		printTreeIO(n->right);
+	}
+}
+void BST::printTreePre(TNode *n){
+	if (n==NULL){
+		return;
+	}
+	else {
+		n->printNode();
+		printTreeIO(n->left);
+		printTreeIO(n->right);
+	}
+}
+
+
+
+
+
+
+bool BST::insert(string s){
+	TNode *tmp = root;
+	if (root!=NULL){
+		while (tmp->left!=NULL && tmp->right!=NULL){
+			//go through and find the spot
+			if (s.compare(tmp->data->phrase) < 0){
+				tmp=tmp->right;
+			}
+			else if (s.compare(tmp->data->phrase)>0){
+				tmp=tmp->left;
+			}
+			else {
+				return false;
+			}
+		}
+		TNode *n = new TNode(s);
+		n->data->phrase=s;
+		n->parent=tmp;
+		setHeight(n);
+		return true;
+	}
+	else {
+		TNode *n = new TNode(s);
+		root=n;
+		setHeight(n);
+		return true;
+	}
+
+}
 

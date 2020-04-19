@@ -18,6 +18,7 @@ class TNode{
 	TNode *parent;
 	Phrase *data;
 	int height;
+	bool heightFlag;
 public:
 	TNode(string s);
 	TNode();

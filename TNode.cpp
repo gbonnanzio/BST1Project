@@ -16,6 +16,7 @@ TNode::TNode(string s) {
 	parent = NULL;
 	height = 1;
 	data = new Phrase(s);
+	heightFlag = false;
 }
 TNode::TNode() {
 	left = NULL;
@@ -23,6 +24,7 @@ TNode::TNode() {
 	parent = NULL;
 	height = 1;
 	data = new Phrase();
+	heightFlag = false;
 }
 TNode::~TNode(){
 	cout <<"Deleting "<<data->phrase<<endl;
