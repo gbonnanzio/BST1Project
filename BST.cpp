@@ -291,3 +291,53 @@ bool BST::insert(string s){
 	}
 
 }
+
+
+
+
+
+TNode* BST::removeNoKids(TNode *tmp){
+	//no kids means we just need to disconnect it
+	TNode *tmp2;
+	if (tmp->parent->left==tmp){
+		tmp->parent->left=NULL;
+	}
+	else {
+		tmp->parent->right=NULL;
+	}
+	tmp->parent=NULL;
+	return tmp;
+}
+
+TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
+	//we need to figure out if the tmp is on the left or the right of it's parent
+	TNode *tmp2;
+	if (tmp->parent->left==tmp){
+		//tmp on parent's left
+		tmp2 = tmp->parent->left;
+	}
+	else {
+		//tmp on it's parents right
+		tmp2 = tmp->parent->right;
+	}
+
+	//reassign the child to the parent of the node
+	if (leftFlag){//left child present
+		tmp->left->parent=tmp->parent;
+		tmp2=tmp->left;
+	}
+	else {//right child present
+		tmp->right->parent=tmp->parent;
+		tmp2=tmp->right;
+	}
+
+	//remove the node by disconnecting it
+	tmp->parent=NULL;
+	tmp->left=NULL;
+	tmp->right=NULL;
+
+	setHeight(tmp2);
+	return tmp;
+}
+
+
