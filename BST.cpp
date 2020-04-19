@@ -200,3 +200,79 @@ void BST::clearTree(TNode *tmp) {
 	}
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void BST::printTreeIO(TNode *n){
+	if (n==NULL){
+		return;
+	}
+	else {
+		printTreeIO(n->left);
+		n->printNode();
+		printTreeIO(n->right);
+	}
+}
+void BST::printTreePre(TNode *n){
+	if (n==NULL){
+		return;
+	}
+	else {
+		n->printNode();
+		printTreeIO(n->left);
+		printTreeIO(n->right);
+	}
+}
+
+
+
+
+
+
+bool BST::insert(string s){
+	TNode *tmp = root;
+	if (root!=NULL){
+		while (tmp->left!=NULL && tmp->right!=NULL){
+			//go through and find the spot
+			if (s.compare(tmp->data->phrase) < 0){
+				tmp=tmp->right;
+			}
+			else if (s.compare(tmp->data->phrase)>0){
+				tmp=tmp->left;
+			}
+			else {
+				return false;
+			}
+		}
+		TNode *n = new TNode(s);
+		n->data->phrase=s;
+		n->parent=tmp;
+		setHeight(n);
+		return true;
+	}
+	else {
+		TNode *n = new TNode(s);
+		root=n;
+		setHeight(n);
+		return true;
+	}
+
+}
