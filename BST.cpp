@@ -43,6 +43,23 @@ void BST::setHeight(TNode *n){
 
 
 
+TNode *BST::find(string s){
+	if(s == root->data->phrase){
+		return root;
+	}
+	else if(s > root->data->phrase){
+		root = root->right;
+		find(s);
+	}
+	else if(s < root->data->phrase){
+		root = root->left;
+		find(s);
+	}
+	else if(root == NULL){
+		return NULL;
+	}
+}
+
 
 void BST::printTreeIO() {
 	if (root == NULL ) {
