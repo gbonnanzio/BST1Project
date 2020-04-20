@@ -5,6 +5,7 @@ in BST.hpp
 */
 #include "BST.hpp"
 #include <math.h>
+#include <cstdbool>
 
 BST::BST() {
 	root = NULL;
@@ -17,7 +18,7 @@ BST::BST(string s){
 
 
 
-void printTreePost(TNode *n){
+void BST::printTreePost(TNode *n){
 	if(n==NULL){
 		return;
 	}
@@ -29,7 +30,7 @@ void printTreePost(TNode *n){
 }
 
 
-TNode *removeNoKids(TNode *tmp){
+/*TNode *BST::removeNoKids(TNode *tmp){
 	if(tmp = tmp->parent->right){
 		tmp->parent->right = NULL;
 	}
@@ -38,7 +39,7 @@ TNode *removeNoKids(TNode *tmp){
 	}
 	setHeight(tmp);
 
-}
+}*/
 
 
 
@@ -196,22 +197,22 @@ TNode *BST::remove(string s){
 	TNode *replace;
 	if(test == NULL){
 		cout << "This string is not in the tree." << endl;
-		return s;
+		return removed;
 	}
 	if(test->right == NULL && test->left == NULL){
 		removed = removeNoKids(test);
 		return removed;
 	}
 	else if(test->right == NULL && test->left){
-		removed = removeOneKid(test, TRUE);
+		removed = removeOneKid(test, 1);
 		return removed;
 	}
 	else if(test->left == NULL && test->right){
-		removed = removeOneKid(test, FALSE);
+		removed = removeOneKid(test, 0);
 		return removed;
 	}
 	else{
-		replace = test->right
+		replace = test->right;
 		while(replace->left !=NULL){
 			replace = replace->left;
 		}
@@ -353,9 +354,6 @@ bool BST::insert(string s){
 	}
 
 }
-<<<<<<< HEAD
-
-=======
 
 
 
@@ -404,6 +402,3 @@ TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
 	setHeight(tmp2);
 	return tmp;
 }
-
-
->>>>>>> branch 'master' of https://github.com/gbonnanzio/BST1Project.git
