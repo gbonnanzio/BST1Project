@@ -79,8 +79,19 @@ void BST::setHeight(TNode *n){
 	else if(!n->right->heightFlag){
 		setHeight(n->right);
 	}
+	else{
+		setFlags(root);
+	}
 }
 
+void BST::setFlags(TNode *n){
+	if(n==NULL){
+		return;
+	}
+	n->heightFlag = false;
+	setFlags(n->left);
+	setFlags(n->right);
+}
 
 
 
