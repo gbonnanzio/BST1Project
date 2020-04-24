@@ -441,3 +441,81 @@ TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
 	setHeight(tmp2);
 	return tmp;
 }
+
+
+
+
+
+
+
+
+TNode *BST::find(string s){
+	TNode *tmp = root;
+	while (s!=tmp->data->phrase){
+		//move along to the next one
+		//but if you hit the end of the line
+		//the string does not exist
+		if (s.compare(tmp->data->phrase)>0){
+			if (tmp->right==NULL){
+				return NULL;
+			}
+			else {
+				tmp=tmp->right;
+			}
+		}
+		else {
+			if (tmp->left==NULL){
+				return NULL;
+			}
+			else {
+				tmp=tmp->left;
+			}
+		}
+
+	}
+	return tmp;
+}
+
+
+bool BST::insert(string s){
+	TNode *tmp = root;
+	TNode *holder =NULL;
+	if (root!=NULL){
+		while (tmp!=NULL){
+			holder = tmp;
+			//go through and find the spot
+			if (s.compare(tmp->data->phrase) > 0){
+				tmp=tmp->right;
+			}
+			else if (s.compare(tmp->data->phrase)<0){
+				tmp=tmp->left;
+			}
+			else {
+				return false;
+			}
+		}
+		TNode *n = new TNode(s);
+		n->data->phrase=s;
+		n->parent=holder;
+		if (s.compare(holder->data->phrase) > 0){
+			holder->right=n;
+		}
+		else {
+			holder->left=n;
+		}
+		setHeight(n);
+		return true;
+	}
+	else {
+		TNode *n = new TNode(s);
+		root=n;
+		setHeight(n);
+		return true;
+	}
+
+}
+
+
+
+
+
