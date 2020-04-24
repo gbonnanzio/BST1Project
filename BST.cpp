@@ -105,22 +105,22 @@ void BST::setFlags(TNode *n){
 
 
 
-TNode *BST::find(string s){
-	if(s == root->data->phrase){
-		return root;
-	}
-	else if(s > root->data->phrase){
-		root = root->right;
-		find(s);
-	}
-	else if(s < root->data->phrase){
-		root = root->left;
-		find(s);
-	}
-	else if(root == NULL){
-		return NULL;
-	}
-}
+//TNode *BST::find(string s){
+//	if(s == root->data->phrase){
+//		return root;
+//	}
+//	else if(s > root->data->phrase){
+//		root = root->right;
+//		find(s);
+//	}
+//	else if(s < root->data->phrase){
+//		root = root->left;
+//		find(s);
+//	}
+//	else if(root == NULL){
+//		return NULL;
+//	}
+//}
 
 
 
@@ -315,7 +315,6 @@ void BST::printTreePre(TNode *n){
 		return;
 	}
 	else {
-		cout << "test 1" <<endl;
 		n->printNode();
 		printTreeIO(n->left);
 		printTreeIO(n->right);
@@ -363,14 +362,13 @@ void BST::printTreePre(TNode *n){
 
 
 
-bool BST::insert(string s){
-	TNode tmp;
+/*bool BST::insert(string s){
+	TNode *tmp = new TNode(s);
 	cout << "test c" <<  endl;
 	if(root->data->phrase != ""){
 		cout << "test b" << endl;
 		if(s >= root->data->phrase){
 			if(root->right == NULL){
-				tmp = TNode(s);
 				root->right=tmp;
 				return true;
 			}
@@ -379,7 +377,6 @@ bool BST::insert(string s){
 		}
 		else{
 			if(root->left == NULL){
-				tmp = TNode(s);
 				root->right=tmp;
 				root->left=tmp;
 				return true;
@@ -392,12 +389,12 @@ bool BST::insert(string s){
 	else{
 		cout << "test d" << endl;
 		cout << root << endl;
-		tmp->data->phrase = s;
+		root = tmp;
 		cout << "test e" << endl;
 		cout << root->data->phrase << endl;
 		return true;
 	}
-}
+}*/
 
 
 
@@ -508,7 +505,6 @@ bool BST::insert(string s){
 			}
 		}
 		TNode *n = new TNode(s);
-		n->data->phrase=s;
 		n->parent=holder;
 		if (s.compare(holder->data->phrase) > 0){
 			holder->right=n;
