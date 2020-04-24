@@ -49,7 +49,7 @@ void BST::setHeight(TNode *n){
 	if(n == NULL){
 		return;
 	}
-	if(n->left==NULL && n->right==NULL){
+	else if(n->left==NULL && n->right==NULL){
 		n->height = 1;
 		n->heightFlag = true;
 		setHeight(n->parent);
