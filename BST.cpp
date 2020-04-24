@@ -358,6 +358,11 @@ void BST::printTreePre(TNode *n){
 }*/
 
 
+
+
+
+
+
 bool BST::insert(string s){
 	TNode *tmp;
 	cout << "test c" <<  endl;
@@ -374,7 +379,8 @@ bool BST::insert(string s){
 		}
 		else{
 			if(root->left == NULL){
-				tmp->data->phrase = s;
+				*tmp = TNode(s);
+				root->right=tmp;
 				root->left=tmp;
 				return true;
 			}
@@ -412,6 +418,11 @@ TNode* BST::removeNoKids(TNode *tmp){
 	tmp->parent=NULL;
 	return tmp;
 }
+
+
+
+
+
 
 TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
 	//we need to figure out if the tmp is on the left or the right of it's parent
