@@ -6,6 +6,7 @@ in BST.hpp
 #include "BST.hpp"
 #include <math.h>
 #include <cstdbool>
+using namespace std;
 
 BST::BST() {
 	root = NULL;
@@ -303,6 +304,7 @@ void BST::printTreePre(TNode *n){
 		return;
 	}
 	else {
+		cout << "test 1" <<endl;
 		n->printNode();
 		printTreeIO(n->left);
 		printTreeIO(n->right);
@@ -314,7 +316,7 @@ void BST::printTreePre(TNode *n){
 
 
 
-bool BST::insert(string s){
+/*bool BST::insert(string s){
 	TNode *tmp = root;
 	if (root!=NULL){
 		while (tmp->left!=NULL && tmp->right!=NULL){
@@ -342,7 +344,46 @@ bool BST::insert(string s){
 		return true;
 	}
 
+}*/
+
+
+bool BST::insert(string s){
+	TNode *tmp;
+	cout << "test c" <<  endl;
+	if(root->data->phrase != ""){
+		cout << "test b" << endl;
+		if(s >= root->data->phrase){
+			if(root->right == NULL){
+				*tmp = TNode(s);
+				root->right=tmp;
+				return true;
+			}
+			root = root->right;
+			insert(s);
+		}
+		else{
+			if(root->left == NULL){
+				tmp->data->phrase = s;
+				root->left=tmp;
+				return true;
+			}
+			root = root->left;
+			insert(s);
+		}
+	}
+
+	else{
+		cout << "test d" << endl;
+		cout << root << endl;
+		tmp->data->phrase = s;
+		cout << "test e" << endl;
+		cout << root->data->phrase << endl;
+		return true;
+	}
 }
+
+
+
 
 
 
