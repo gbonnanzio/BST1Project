@@ -353,13 +353,12 @@ void BST::printTreePre(TNode *n){
 
 
 bool BST::insert(string s){
-	TNode tmp;
+	TNode *tmp = new TNode(s);
 	cout << "test c" <<  endl;
 	if(root->data->phrase != ""){
 		cout << "test b" << endl;
 		if(s >= root->data->phrase){
 			if(root->right == NULL){
-				tmp = TNode(s);
 				root->right=tmp;
 				return true;
 			}
@@ -368,7 +367,6 @@ bool BST::insert(string s){
 		}
 		else{
 			if(root->left == NULL){
-				tmp = TNode(s);
 				root->right=tmp;
 				root->left=tmp;
 				return true;
@@ -381,7 +379,7 @@ bool BST::insert(string s){
 	else{
 		cout << "test d" << endl;
 		cout << root << endl;
-		tmp->data->phrase = s;
+		root = tmp;
 		cout << "test e" << endl;
 		cout << root->data->phrase << endl;
 		return true;
