@@ -50,22 +50,34 @@ void BST::setHeight(TNode *n){
 	if(n == NULL){
 		return;
 	}
-	else if(n->left==NULL && n->right==NULL){
+	else if(n->left==NULL && n->right==NULL && n->parent == NULL){
+		//cout << "test 1" <<endl;
 		n->height = 1;
 		n->heightFlag = true;
+		cout << "test 8" <<endl;
+		setFlags(root);
 		setHeight(n->parent);
 	}
-	else if(n->left == NULL && n->right->heightFlag){
+	else if(n->left==NULL && n->right==NULL){
+			//cout << "test 1" <<endl;
+			n->height = 1;
+			n->heightFlag = true;
+			setHeight(n->parent);
+	}
+	else if(n->left == NULL && !n->right->heightFlag){
+		//cout << "test 2" <<endl;
 		n->height = n->right->height + 1;
 		n->heightFlag = true;
 		setHeight(n->parent);
 	}
-	else if(n->right == NULL && n->left->heightFlag){
+	else if(n->right == NULL && !n->left->heightFlag){
+		//cout << "test 3" <<endl;
 		n->height = n->left->height + 1;
 		n->heightFlag = true;
 		setHeight(n->parent);
 	}
 	else if(n->left->heightFlag && n->right->heightFlag){
+		//cout << "test 4" <<endl;
 		if(n->left->height > n->right->height){
 			n->height = n->left->height + 1;
 		}
@@ -76,12 +88,15 @@ void BST::setHeight(TNode *n){
 		setHeight(n->parent);
 	}
 	else if(!n->left->heightFlag){
+		//cout << "test 5" <<endl;
 		setHeight(n->left);
 	}
 	else if(!n->right->heightFlag){
+		//cout << "test 6" <<endl;
 		setHeight(n->right);
 	}
 	else{
+		cout << "test 7" <<endl;
 		setFlags(root);
 	}
 }
@@ -316,8 +331,8 @@ void BST::printTreePre(TNode *n){
 	}
 	else {
 		n->printNode();
-		printTreeIO(n->left);
-		printTreeIO(n->right);
+		printTreePre(n->left);
+		printTreePre(n->right);
 	}
 }
 
@@ -512,7 +527,7 @@ bool BST::insert(string s){
 		else {
 			holder->left=n;
 		}
-		setHeight(n);
+		setHeight(root);
 		return true;
 	}
 	else {
