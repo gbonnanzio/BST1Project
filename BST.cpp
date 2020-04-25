@@ -183,11 +183,11 @@ void BST::printTreePost() {
 
 TNode *BST::remove(string s){
 	TNode *test = find(s);
-	TNode *removed;
-	TNode *replace;
+	TNode *removed = new TNode();
+	TNode *replace = new TNode();
 	if(test == NULL){
 		cout << "This string is not in the tree." << endl;
-		return removed;
+		return test;
 	}
 	if(test->right == NULL && test->left == NULL){
 		removed = removeNoKids(test);
@@ -202,21 +202,31 @@ TNode *BST::remove(string s){
 		return removed;
 	}
 	else{
+		//remove two kids
 		replace = test->right;
 		while(replace->left !=NULL){
 			replace = replace->left;
 		}
 		TNode *tmp = replace;
 		tmp->parent->left = tmp->right;
+		tmp->right->parent = tmp->parent;
 		tmp->right = test->right;
 		tmp->left = test->left;
+		test->right->parent = tmp;
+		test->left->parent = tmp;
 		tmp->parent = test->parent;
 		if(test->parent->right == test){
 			test->parent->right = replace;
+			test->right = NULL;
+			test->parent = NULL;
+			test->left = NULL;
 			return test;
 		}
 		else{
 			test->parent->left = replace;
+			test->right = NULL;
+			test->parent = NULL;
+			test->left = NULL;
 			return test;
 		}
 
@@ -305,8 +315,8 @@ void BST::printTreePre(TNode *n){
 	}
 	else {
 		n->printNode();
-		printTreeIO(n->left);
-		printTreeIO(n->right);
+		printTreePre(n->left);
+		printTreePre(n->right);
 	}
 }
 
