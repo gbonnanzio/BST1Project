@@ -187,57 +187,68 @@ void BST::printTreePost(TNode *n){
 }
 
 TNode *BST::remove(string s){
-/*Input:
- * Output:
- * Action:
+/*Input: The string to be removed from the binary tree
+ * Output: Returns the removed node containing the target string
+ * Action: Determines the number of children of the node to be removed, then removes it accordingly
  */
+	// test = node to be removed, tmp & replace are node to go in its place
 	TNode *test = find(s);
 	TNode *removed = new TNode();
 	TNode *replace = new TNode();
+	// if the string is not in the tree
 	if(test == NULL){
 		cout << "This string is not in the tree." << endl;
 		return test;
 	}
+	// if the node has no children
 	if(test->right == NULL && test->left == NULL){
 		removed = removeNoKids(test);
 		return removed;
 	}
+	// node has on child on left
 	else if(test->right == NULL && test->left){
 		removed = removeOneKid(test, 1);
 		return removed;
 	}
+	// node has on child on right
 	else if(test->left == NULL && test->right){
 		removed = removeOneKid(test, 0);
 		return removed;
 	}
+	// node has two children
 	else{
-		//remove two kids
 		replace = test->left;
+		// rightmost node in left subtree (no more right children)
 		while(replace->right !=NULL){
 			replace = replace->right;
 		}
 		TNode *tmp = replace;
+		// reassigning pointers to node that moves to removed node's place
 		 tmp->right = tmp->parent->right;
 		TNode *tmp2 = tmp->parent;
+		// changing left subtree's parent if left subtree exists
 		if(tmp->left != NULL){
 			tmp->left->parent = tmp2;
 		}
 		tmp->right = test->right;
+		// if the replacement node is direct left child, bypass node to be removed
 		if(test->left == tmp){
-
 			tmp->parent = test->parent;
 		}
+		// otherwise, children of test should have parent of replacement node
 		else{
 			test->left->parent = tmp;
 		}
 		test->right->parent = tmp;
-		tmp->parent = test->parent;
+		tmp->parent = test->parent; //tmp eventually bypasses test, but other bypass must be made first
 
+		// if removed node is root, make tmp the root
 		if(test->parent == NULL){
 			root = tmp;
 			setHeight(tmp);
 			return test;
 		}
+		// removing test from tree, if it is a right child
 		else if(test->parent->right == test){
 			test->parent->right = replace;
 			test->right = NULL;
@@ -246,6 +257,7 @@ TNode *BST::remove(string s){
 			setHeight(tmp->parent);
 			return test;
 		}
+		// removing test from tree, if it is a left child
 		else{
 			test->parent->left = replace;
 			test->right = NULL;
