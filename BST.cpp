@@ -3,6 +3,7 @@ Otherwise, as specified in the directions, you must write the BST.cpp.
 including the method definitions to accompany the method declarations 
 in BST.hpp
 Partners: Nicholas Samulewicz, Geoff Bonnanzio, Chloe Griffiths
+TA Name: Chunbo Song
 */
 #include "BST.hpp"
 #include <math.h>
@@ -17,46 +18,26 @@ BST::BST(string s){
 }
 
 
-void BST::printTreePost(TNode *n){
-	if(n==NULL){
-		return;
+void BST::clearTree() {
+	if (root == NULL) {
+		cout << "Tree already empty" << endl;
 	}
-	else{
-		printTreePost(n->left);
-		printTreePost(n->right);
-		n->printNode();
+	else {
+		cout << endl << "Clearing Tree:" << endl;
+		clearTree(root);
+		root = NULL;
 	}
 }
 
-
-void BST::setHeight(TNode *n){
-	if(n == NULL){
+void BST::clearTree(TNode *tmp) {
+	if (tmp == NULL) {
 		return;
 	}
-	else if(n->left==NULL && n->right==NULL && n->parent == NULL){
-		n->height = 1;
-		setHeight(n->parent);
-	}
-	else if(n->left==NULL && n->right==NULL){
-			n->height = 1;
-			setHeight(n->parent);
-	}
-	else if(n->left == NULL){
-		n->height = n->right->height + 1;
-		setHeight(n->parent);
-	}
-	else if(n->right == NULL){
-		n->height = n->left->height + 1;
-		setHeight(n->parent);
-	}
-	else{
-		if(n->left->height > n->right->height){
-			n->height = n->left->height + 1;
-		}
-		else{
-			n->height = n->right->height + 1;
-		}
-		setHeight(n->parent);
+	else {
+		clearTree(tmp->left);
+		clearTree(tmp->right);
+		tmp->printNode();
+		delete(tmp);
 	}
 }
 
@@ -92,8 +73,123 @@ void BST::printTreePost() {
 	}
 }
 
+bool BST::insert(string s){
+/* Input: A string to be the phrase for the new node
+ * Output: A boolean that's true if a new node was sucessfully inserted
+ * Action: Find the correct spot for a new node with phrase S and insert it
+ */
+	TNode *tmp = root;
+	TNode *holder =NULL;
+	if (root!=NULL){ //case when the tree is not empty
+		while (tmp!=NULL){//iterate through the array to find the spot for new node
+			holder = tmp;
+			if (s.compare(tmp->data->phrase) > 0){
+				tmp=tmp->right;
+			}
+			else if (s.compare(tmp->data->phrase)<0){
+				tmp=tmp->left;
+			}
+			else {//there is no spot for it because the phrase already is a node elsewhere
+				return false;
+			}
+		}
+		TNode *n = new TNode(s);
+		n->parent=holder;
+		if (s.compare(holder->data->phrase) > 0){
+			holder->right=n;
+		}
+		else {
+			holder->left=n;
+		}
+		setHeight(n); //reset heights starting with the node we just inserted
+		return true;
+	}
+	else { //case when the tree is empty
+		TNode *n = new TNode(s);
+		root=n;
+		setHeight(n); //rest the height of the node we just inserted
+		return true;
+	}
+
+}
+
+TNode *BST::find(string s){
+/*Input: A string that represent the phrase we are looking for
+ * Output: A pointer to the node that holds the same phrase as string s
+ * Action: Go through the tree and find a spot with a specific node holding phrase S
+ */
+	TNode *tmp = root;
+	while (s!=tmp->data->phrase){//iterate through the tree. Stop if we hit a node with phrase s
+		if (s.compare(tmp->data->phrase)>0){ //s is greater than current node's phrase
+			if (tmp->right==NULL){//if s phrase does not exist in the tree
+				return NULL;
+			}
+			else {
+				tmp=tmp->right;
+			}
+		}
+		else { //s is less than current node's phrase
+			if (tmp->left==NULL){//if s phrase does not exist in the tree
+				return NULL;
+			}
+			else {
+				tmp=tmp->left;
+			}
+		}
+
+	}
+	return tmp;
+}
+
+void BST::printTreeIO(TNode *n){
+	/*Input: A pointer to a node to start with in the print
+	 * Output: None
+	 * Action: Goes through the tree in-order and prints each node
+	 */
+	if (n==NULL){
+		return;
+	}
+	else {
+		printTreeIO(n->left);
+		n->printNode();
+		printTreeIO(n->right);
+	}
+}
+void BST::printTreePre(TNode *n){
+	/*Input: A pointer to a node to start with in the print
+	 * Output: None
+	 * Action: Goes through the tree pre-order and prints each node
+	 */
+	if (n==NULL){
+		return;
+	}
+	else {
+		n->printNode();
+		printTreePre(n->left);
+		printTreePre(n->right);
+	}
+}
+
+void BST::printTreePost(TNode *n){
+	/*Input: A pointer to a node to start with in the print
+     * Output: None
+   	* Action: Goes through the tree post-order and prints each node
+	 */
+	if(n==NULL){
+		return;
+	}
+	else{
+		printTreePost(n->left);
+		printTreePost(n->right);
+		n->printNode();
+	}
+}
 
 TNode *BST::remove(string s){
+/*Input:
+ * Output:
+ * Action:
+ */
 	TNode *test = find(s);
 	TNode *removed = new TNode();
 	TNode *replace = new TNode();
@@ -162,69 +258,33 @@ TNode *BST::remove(string s){
 	}
 }
 
-void BST::clearTree() {
-	if (root == NULL) {
-		cout << "Tree already empty" << endl;
-	}
-	else {
-		cout << endl << "Clearing Tree:" << endl;
-		clearTree(root);
-		root = NULL;
-	}
-}
-
-void BST::clearTree(TNode *tmp) {
-	if (tmp == NULL) {
-		return;
-	}
-	else {
-		clearTree(tmp->left);
-		clearTree(tmp->right);
-		tmp->printNode();
-		delete(tmp);
-	}
-}
-
-void BST::printTreeIO(TNode *n){
-	if (n==NULL){
-		return;
-	}
-	else {
-		printTreeIO(n->left);
-		n->printNode();
-		printTreeIO(n->right);
-	}
-}
-void BST::printTreePre(TNode *n){
-	if (n==NULL){
-		return;
-	}
-	else {
-		n->printNode();
-		printTreePre(n->left);
-		printTreePre(n->right);
-	}
-}
-
 TNode* BST::removeNoKids(TNode *tmp){
-	//no kids means we just need to disconnect it
-	TNode *tmp2 = tmp->parent;
+/*Input: A pointer to a node that holds no kids
+ * Output: A pointer to the node we just deleted
+ * Action: remove a node from the tree that has no kids
+ */
+	TNode *tmp2 = tmp->parent; //set as the parent of the one we are deleting
+
+	//figure out which direction the node we are deleting sits on its parent
 	if (tmp->parent->left==tmp){
-		tmp->parent->left=NULL;
+		tmp->parent->left=NULL; //Then disconnect the node from the tree
 	}
 	else {
-		tmp->parent->right=NULL;
+		tmp->parent->right=NULL; //Then disconnect the node from the tree
 	}
 	tmp->parent=NULL;
-	setHeight(tmp2);
+	setHeight(tmp2); ///reset heights starting with the parent of the node just deleted
 	return tmp;
 }
 
-TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
-	//we need to figure out if the tmp is on the left or the right of it's parent
-	TNode *tmp2 = tmp->parent;
-	if (tmp->parent->left==tmp){
 
+TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
+/*Input: A pointer to the node we want to delete, a boolean flag telling whether the node's child is a left of a right
+ * Output: A pointer to the node we just deleted
+ * Action: Remove a node with one kid
+ */
+	TNode *tmp2 = tmp->parent;
+	if (tmp->parent->left==tmp){ //if the node sits on the left of its parent
 		//reassign the child to the parent of the node
 		if (leftFlag){//left child present
 			tmp->left->parent=tmp->parent;
@@ -235,8 +295,7 @@ TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
 			tmp->parent->left=tmp->right;
 		}
 	}
-	else {
-
+	else {//if the node sits on the right of it's parent
 		//reassign the child to the parent of the node
 		if (leftFlag){//left child present
 			tmp->left->parent=tmp->parent;
@@ -245,81 +304,55 @@ TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
 		else {//right child present
 			tmp->right->parent=tmp->parent;
 			tmp->parent->right=tmp->right;
+		}
 	}
-
-	}
-
 	//remove the node by disconnecting it
 	tmp->parent=NULL;
 	tmp->left=NULL;
 	tmp->right=NULL;
 
-	setHeight(tmp2);
-	return tmp;
-}
-
-TNode *BST::find(string s){
-	TNode *tmp = root;
-	while (s!=tmp->data->phrase){
-		//move along to the next one
-		//but if you hit the end of the line
-		//the string does not exist
-		if (s.compare(tmp->data->phrase)>0){
-			if (tmp->right==NULL){
-				return NULL;
-			}
-			else {
-				tmp=tmp->right;
-			}
-		}
-		else {
-			if (tmp->left==NULL){
-				return NULL;
-			}
-			else {
-				tmp=tmp->left;
-			}
-		}
-
-	}
+	setHeight(tmp2); //reset heights starting with the parent of the deleted
 	return tmp;
 }
 
 
-bool BST::insert(string s){
-	TNode *tmp = root;
-	TNode *holder =NULL;
-	if (root!=NULL){
-		while (tmp!=NULL){
-			holder = tmp;
-			//go through and find the spot
-			if (s.compare(tmp->data->phrase) > 0){
-				tmp=tmp->right;
-			}
-			else if (s.compare(tmp->data->phrase)<0){
-				tmp=tmp->left;
-			}
-			else {
-				return false;
-			}
-		}
-		TNode *n = new TNode(s);
-		n->parent=holder;
-		if (s.compare(holder->data->phrase) > 0){
-			holder->right=n;
-		}
-		else {
-			holder->left=n;
-		}
-		setHeight(n);
-		return true;
+void BST::setHeight(TNode *n){
+/*Input:
+ * Output: None
+ * Action:
+ */
+	if(n == NULL){
+		return;
 	}
-	else {
-		TNode *n = new TNode(s);
-		root=n;
-		setHeight(n);
-		return true;
+	else if(n->left==NULL && n->right==NULL && n->parent == NULL){
+		n->height = 1;
+		setHeight(n->parent);
 	}
-
+	else if(n->left==NULL && n->right==NULL){
+			n->height = 1;
+			setHeight(n->parent);
+	}
+	else if(n->left == NULL){
+		n->height = n->right->height + 1;
+		setHeight(n->parent);
+	}
+	else if(n->right == NULL){
+		n->height = n->left->height + 1;
+		setHeight(n->parent);
+	}
+	else{
+		if(n->left->height > n->right->height){
+			n->height = n->left->height + 1;
+		}
+		else{
+			n->height = n->right->height + 1;
+		}
+		setHeight(n->parent);
+	}
 }
+
+
+
+
+
 
