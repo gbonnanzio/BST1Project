@@ -194,27 +194,36 @@ TNode *BST::remove(string s){
 		return removed;
 	}
 	else{
+		cout << "test d" << endl;
 		//remove two kids
-		replace = test->right;
-		while(replace->left !=NULL){
-			replace = replace->left;
+		replace = test->left;
+		while(replace->right !=NULL){
+			replace = replace->right;
 		}
 		TNode *tmp = replace;
-		cout << "test b" << endl;
-		tmp->parent->left = tmp->right;
+		 tmp->right = tmp->parent->right;
 		cout << "test b" << endl;
 		TNode *tmp2 = tmp->parent;
-		if(tmp->right != NULL){
-			tmp->right->parent = tmp2;
+		if(tmp->left != NULL){
+			tmp->left->parent = tmp2;
 		}
 		tmp->right = test->right;
-		cout << "test b" << endl;
-		tmp->left = test->left;
+		if(test->left == tmp){
+
+			tmp->parent = test->parent;
+		}
+		else{
+			test->left->parent = tmp;
+		}
 		test->right->parent = tmp;
-		test->left->parent = tmp;
 		tmp->parent = test->parent;
 
-		if(test->parent->right == test){
+		if(test->parent == NULL){
+			root = tmp;
+			setHeight(tmp);
+			return test;
+		}
+		else if(test->parent->right == test){
 			test->parent->right = replace;
 			test->right = NULL;
 			test->parent = NULL;
@@ -422,24 +431,31 @@ TNode* BST::removeNoKids(TNode *tmp){
 
 TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
 	//we need to figure out if the tmp is on the left or the right of it's parent
-	TNode *tmp2;
+	TNode *tmp2 = tmp->parent;
 	if (tmp->parent->left==tmp){
-		//tmp on parent's left
-		tmp2 = tmp->parent->left;
+
+		//reassign the child to the parent of the node
+		if (leftFlag){//left child present
+			tmp->left->parent=tmp->parent;
+			tmp->parent->left=tmp->left;
+		}
+		else {//right child present
+			tmp->right->parent=tmp->parent;
+			tmp->parent->left=tmp->right;
+		}
 	}
 	else {
-		//tmp on it's parents right
-		tmp2 = tmp->parent->right;
+
+		//reassign the child to the parent of the node
+		if (leftFlag){//left child present
+			tmp->left->parent=tmp->parent;
+			tmp->parent->right=tmp->left;
+		}
+		else {//right child present
+			tmp->right->parent=tmp->parent;
+			tmp->parent->right=tmp->right;
 	}
 
-	//reassign the child to the parent of the node
-	if (leftFlag){//left child present
-		tmp->left->parent=tmp->parent;
-		tmp2=tmp->left;
-	}
-	else {//right child present
-		tmp->right->parent=tmp->parent;
-		tmp2=tmp->right;
 	}
 
 	//remove the node by disconnecting it
