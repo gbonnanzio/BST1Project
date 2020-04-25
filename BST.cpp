@@ -201,18 +201,26 @@ TNode *BST::remove(string s){
 			replace = replace->left;
 		}
 		TNode *tmp = replace;
+		cout << "test b" << endl;
 		tmp->parent->left = tmp->right;
-		tmp->right->parent = tmp->parent;
+		cout << "test b" << endl;
+
+		//tmp->right->parent = tmp->parent;
+
+		cout << "test b" << endl;
 		tmp->right = test->right;
+		cout << "test b" << endl;
 		tmp->left = test->left;
 		test->right->parent = tmp;
 		test->left->parent = tmp;
 		tmp->parent = test->parent;
+
 		if(test->parent->right == test){
 			test->parent->right = replace;
 			test->right = NULL;
 			test->parent = NULL;
 			test->left = NULL;
+			setHeight(tmp->parent);
 			return test;
 		}
 		else{
@@ -220,11 +228,10 @@ TNode *BST::remove(string s){
 			test->right = NULL;
 			test->parent = NULL;
 			test->left = NULL;
+			setHeight(tmp->parent);
 			return test;
 		}
-
 	}
-	setHeight(root);
 }
 
 
