@@ -86,7 +86,6 @@ void BST::setHeight(TNode *n){
 
 
 
-
 //TNode *BST::find(string s){
 //	if(s == root->data->phrase){
 //		return root;
