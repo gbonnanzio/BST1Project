@@ -44,72 +44,38 @@ void BST::printTreePost(TNode *n){
 
 
 
-
-
 void BST::setHeight(TNode *n){
 	if(n == NULL){
 		return;
 	}
-
 	else if(n->left==NULL && n->right==NULL && n->parent == NULL){
-		//cout << "test 1" <<endl;
 		n->height = 1;
-		n->heightFlag = true;
-		cout << "test 8" <<endl;
-		setFlags(root);
 		setHeight(n->parent);
 	}
 	else if(n->left==NULL && n->right==NULL){
-			//cout << "test 1" <<endl;
 			n->height = 1;
-			n->heightFlag = true;
 			setHeight(n->parent);
 	}
-	else if(n->left == NULL && !n->right->heightFlag){
-		//cout << "test 2" <<endl;
+	else if(n->left == NULL){
 		n->height = n->right->height + 1;
-		n->heightFlag = true;
 		setHeight(n->parent);
 	}
-	else if(n->right == NULL && !n->left->heightFlag){
-		//cout << "test 3" <<endl;
+	else if(n->right == NULL){
 		n->height = n->left->height + 1;
-		n->heightFlag = true;
 		setHeight(n->parent);
 	}
-	else if(n->left->heightFlag && n->right->heightFlag){
-		//cout << "test 4" <<endl;
+	else{
 		if(n->left->height > n->right->height){
 			n->height = n->left->height + 1;
 		}
 		else{
 			n->height = n->right->height + 1;
 		}
-		n->heightFlag = true;
 		setHeight(n->parent);
-	}
-	else if(!n->left->heightFlag){
-		//cout << "test 5" <<endl;
-		setHeight(n->left);
-	}
-	else if(!n->right->heightFlag){
-		//cout << "test 6" <<endl;
-		setHeight(n->right);
-	}
-	else{
-		cout << "test 7" <<endl;
-		setFlags(root);
 	}
 }
 
-void BST::setFlags(TNode *n){
-	if(n==NULL){
-		return;
-	}
-	n->heightFlag = false;
-	setFlags(n->left);
-	setFlags(n->right);
-}
+
 
 
 
@@ -431,7 +397,7 @@ void BST::printTreePre(TNode *n){
 
 TNode* BST::removeNoKids(TNode *tmp){
 	//no kids means we just need to disconnect it
-	TNode *tmp2;
+	TNode *tmp2 = tmp->parent;
 	if (tmp->parent->left==tmp){
 		tmp->parent->left=NULL;
 	}
@@ -439,6 +405,7 @@ TNode* BST::removeNoKids(TNode *tmp){
 		tmp->parent->right=NULL;
 	}
 	tmp->parent=NULL;
+	setHeight(tmp2);
 	return tmp;
 }
 
@@ -538,7 +505,7 @@ bool BST::insert(string s){
 		else {
 			holder->left=n;
 		}
-		setHeight(root);
+		setHeight(n);
 		return true;
 	}
 	else {
