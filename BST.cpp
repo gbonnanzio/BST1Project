@@ -17,9 +17,6 @@ BST::BST(string s){
 }
 
 
-
-
-
 void BST::printTreePost(TNode *n){
 	if(n==NULL){
 		return;
@@ -30,19 +27,6 @@ void BST::printTreePost(TNode *n){
 		n->printNode();
 	}
 }
-
-
-/*TNode *BST::removeNoKids(TNode *tmp){
-	if(tmp = tmp->parent->right){
-		tmp->parent->right = NULL;
-	}
-	else{
-		tmp->parent->left = NULL;
-	}
-	setHeight(tmp);
-
-}*/
-
 
 
 void BST::setHeight(TNode *n){
@@ -76,44 +60,6 @@ void BST::setHeight(TNode *n){
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-//TNode *BST::find(string s){
-//	if(s == root->data->phrase){
-//		return root;
-//	}
-//	else if(s > root->data->phrase){
-//		root = root->right;
-//		find(s);
-//	}
-//	else if(s < root->data->phrase){
-//		root = root->left;
-//		find(s);
-//	}
-//	else if(root == NULL){
-//		return NULL;
-//	}
-//}
-
-
-
-
-
-
-
-
-
-
-
 void BST::printTreeIO() {
 	if (root == NULL ) {
 		cout << "Empty Tree" << endl;
@@ -123,14 +69,6 @@ void BST::printTreeIO() {
 		printTreeIO(root);
 	}
 }
-
-
-
-
-
-
-
-
 
 
 void BST::printTreePre() {
@@ -143,16 +81,6 @@ void BST::printTreePre() {
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
 void BST::printTreePost() {
 	if (root == NULL ) {
 		cout << "Empty Tree" << endl;
@@ -163,15 +91,6 @@ void BST::printTreePost() {
 
 	}
 }
-
-
-
-
-
-
-
-
-
 
 
 TNode *BST::remove(string s){
@@ -243,16 +162,6 @@ TNode *BST::remove(string s){
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
 void BST::clearTree() {
 	if (root == NULL) {
 		cout << "Tree already empty" << endl;
@@ -263,16 +172,6 @@ void BST::clearTree() {
 		root = NULL;
 	}
 }
-
-
-
-
-
-
-
-
-
-
 
 void BST::clearTree(TNode *tmp) {
 	if (tmp == NULL) {
@@ -285,28 +184,6 @@ void BST::clearTree(TNode *tmp) {
 		delete(tmp);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BST::printTreeIO(TNode *n){
 	if (n==NULL){
@@ -329,88 +206,6 @@ void BST::printTreePre(TNode *n){
 	}
 }
 
-
-
-
-
-
-/*bool BST::insert(string s){
-	TNode *tmp = root;
-	if (root!=NULL){
-		while (tmp->left!=NULL && tmp->right!=NULL){
-			//go through and find the spot
-			if (s.compare(tmp->data->phrase) < 0){
-				tmp=tmp->right;
-			}
-			else if (s.compare(tmp->data->phrase)>0){
-				tmp=tmp->left;
-			}
-			else {
-				return false;
-			}
-		}
-		TNode *n = new TNode(s);
-		n->data->phrase=s;
-		n->parent=tmp;
-		setHeight(n);
-		return true;
-	}
-	else {
-		TNode *n = new TNode(s);
-		root=n;
-		setHeight(n);
-		return true;
-	}
-
-}*/
-
-
-
-
-
-
-
-/*bool BST::insert(string s){
-	TNode *tmp = new TNode(s);
-	cout << "test c" <<  endl;
-	if(root->data->phrase != ""){
-		cout << "test b" << endl;
-		if(s >= root->data->phrase){
-			if(root->right == NULL){
-				root->right=tmp;
-				return true;
-			}
-			root = root->right;
-			insert(s);
-		}
-		else{
-			if(root->left == NULL){
-				root->right=tmp;
-				root->left=tmp;
-				return true;
-			}
-			root = root->left;
-			insert(s);
-		}
-	}
-
-	else{
-		cout << "test d" << endl;
-		cout << root << endl;
-		root = tmp;
-		cout << "test e" << endl;
-		cout << root->data->phrase << endl;
-		return true;
-	}
-}*/
-
-
-
-
-
-
-
-
 TNode* BST::removeNoKids(TNode *tmp){
 	//no kids means we just need to disconnect it
 	TNode *tmp2 = tmp->parent;
@@ -424,11 +219,6 @@ TNode* BST::removeNoKids(TNode *tmp){
 	setHeight(tmp2);
 	return tmp;
 }
-
-
-
-
-
 
 TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
 	//we need to figure out if the tmp is on the left or the right of it's parent
@@ -467,13 +257,6 @@ TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
 	setHeight(tmp2);
 	return tmp;
 }
-
-
-
-
-
-
-
 
 TNode *BST::find(string s){
 	TNode *tmp = root;
@@ -539,8 +322,4 @@ bool BST::insert(string s){
 	}
 
 }
-
-
-
-
 
