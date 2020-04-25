@@ -5,18 +5,21 @@ in BST.hpp
 Partners: Nicholas Samulewicz, Geoff Bonnanzio, Chloe Griffiths
 TA Name: Chunbo Song
 */
+
+// includes
 #include "BST.hpp"
 #include <math.h>
 #include <cstdbool>
 using namespace std;
 
+//included functions from Dr. Yarrington
 BST::BST() {
 	root = NULL;
 }
+
 BST::BST(string s){
 	root = new TNode(s);
 }
-
 
 void BST::clearTree() {
 	if (root == NULL) {
@@ -51,7 +54,6 @@ void BST::printTreeIO() {
 	}
 }
 
-
 void BST::printTreePre() {
 	if (root == NULL ) {
 		cout << "Empty Tree" << endl;
@@ -69,7 +71,6 @@ void BST::printTreePost() {
 	else {
 		cout << endl<<"Printing PostOrder:" <<endl;
 		printTreePost(root);
-
 	}
 }
 
@@ -275,7 +276,6 @@ TNode* BST::removeNoKids(TNode *tmp){
 	return tmp;
 }
 
-
 TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
 /*Input: A pointer to the node we want to delete, a boolean flag telling whether the node's child is a left of a right
  * Output: A pointer to the node we just deleted
@@ -315,29 +315,39 @@ TNode* BST::removeOneKid(TNode *tmp, bool leftFlag){
 
 
 void BST::setHeight(TNode *n){
-/*Input:
+/*Input: The input to this function is the node that has been most recently
+ * inserted into the tree
  * Output: None
- * Action:
+ * Action: Recursively moves through the tree from the bottom to the top to
+ * set the height of every node in the tree. If a node has been inserted halfway in
+ * the tree only the ancestral node heights are changed
  */
+	//if the node passed is NULL
 	if(n == NULL){
 		return;
 	}
+	//if n is root
 	else if(n->left==NULL && n->right==NULL && n->parent == NULL){
 		n->height = 1;
 		setHeight(n->parent);
 	}
+	//if n is a node with no children
 	else if(n->left==NULL && n->right==NULL){
 			n->height = 1;
 			setHeight(n->parent);
 	}
+	//if n only has a right node
 	else if(n->left == NULL){
 		n->height = n->right->height + 1;
 		setHeight(n->parent);
 	}
+	//if n only has a left node
 	else if(n->right == NULL){
 		n->height = n->left->height + 1;
 		setHeight(n->parent);
 	}
+	//two children comparing which child node has the
+	//greater height
 	else{
 		if(n->left->height > n->right->height){
 			n->height = n->left->height + 1;
