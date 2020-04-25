@@ -238,10 +238,10 @@ TNode *BST::remove(string s){
 		cout << "test b" << endl;
 		tmp->parent->left = tmp->right;
 		cout << "test b" << endl;
-
-		//tmp->right->parent = tmp->parent;
-
-		cout << "test b" << endl;
+		TNode *tmp2 = tmp->parent;
+		if(tmp->right != NULL){
+			tmp->right->parent = tmp2;
+		}
 		tmp->right = test->right;
 		cout << "test b" << endl;
 		tmp->left = test->left;
