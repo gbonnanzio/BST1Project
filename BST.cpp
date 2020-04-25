@@ -50,6 +50,7 @@ void BST::setHeight(TNode *n){
 	if(n == NULL){
 		return;
 	}
+
 	else if(n->left==NULL && n->right==NULL && n->parent == NULL){
 		//cout << "test 1" <<endl;
 		n->height = 1;
