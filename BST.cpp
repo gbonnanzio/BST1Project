@@ -210,7 +210,6 @@ TNode *BST::remove(string s){
 		return removed;
 	}
 	else{
-		cout << "test d" << endl;
 		//remove two kids
 		replace = test->left;
 		while(replace->right !=NULL){
@@ -218,7 +217,6 @@ TNode *BST::remove(string s){
 		}
 		TNode *tmp = replace;
 		 tmp->right = tmp->parent->right;
-		cout << "test b" << endl;
 		TNode *tmp2 = tmp->parent;
 		if(tmp->left != NULL){
 			tmp->left->parent = tmp2;
