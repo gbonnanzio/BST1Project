@@ -2,6 +2,7 @@
 Otherwise, as specified in the directions, you must write the BST.cpp.
 including the method definitions to accompany the method declarations 
 in BST.hpp
+Partners: Nicholas Samulewicz, Geoff Bonnanzio, Chloe Griffiths
 */
 #include "BST.hpp"
 #include <math.h>
